@@ -16,7 +16,7 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
     private KeyboardView kv;
     private Keyboard keyboard;
     private boolean caps;
-
+    private StringBuffer sentence;
     @Override
     public View onCreateInputView() {
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -60,6 +60,8 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
                 ic.deleteSurroundingText(1, 0);
+                if(sentence.length()==0)
+                    sentence.deleteCharAt(sentence.length()-1);
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 caps = !caps;
@@ -68,16 +70,26 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
                 break;
             case Keyboard.KEYCODE_DONE:
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                saveSentence();
                 break;
             default:
                 char code = (char)primaryCode;
                 if(Character.isLetter(code) && caps){
                     code = Character.toUpperCase(code);
                 }
+                sentence.append(code);
                 ic.commitText(String.valueOf(code),1);
+                if(code=='.')
+                    saveSentence();
         }
     }
 
+    private void saveSentence(){
+        String sen=sentence.toString();
+        sentence.delete(0, sentence.length());
+
+        //TODO Save the sentence to the database
+    }
     @Override
     public void onText(CharSequence charSequence) {
 
