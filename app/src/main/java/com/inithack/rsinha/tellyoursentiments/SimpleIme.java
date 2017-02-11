@@ -11,12 +11,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 
+import com.inithack.rsinha.tellyoursentiments.database.MyDataBase;
+
 public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private KeyboardView kv;
     private Keyboard keyboard;
     private boolean caps;
     private StringBuffer sentence;
+    private final String TAG="SimpleIME";
     @Override
     public View onCreateInputView() {
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -89,6 +92,7 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
         sentence.delete(0, sentence.length());
 
         //TODO Save the sentence to the database
+        MyDataBase.insert(this,sen);
     }
     @Override
     public void onText(CharSequence charSequence) {
