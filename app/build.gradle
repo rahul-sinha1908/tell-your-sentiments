@@ -29,6 +29,13 @@ dependencies {
     // https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client
     //compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.8'
     //compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.8'
+    compile group: 'com.aylien.textapi', name: 'client', version: '0.6.0'
     compile files('libs/httpclient.jar')
     compile files('libs/httpcore.jar')
 }
+
+//<dependency>
+//<groupId>com.aylien.textapi</groupId>
+//  <artifactId>client</artifactId>
+//<version>0.6.0</version>
+//</dependency>

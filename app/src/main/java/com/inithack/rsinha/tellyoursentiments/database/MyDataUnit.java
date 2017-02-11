@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.aylien.textapi.TextAPIClient;
+import com.aylien.textapi.parameters.SentimentParams;
+import com.aylien.textapi.responses.Sentiment;
 import com.inithack.rsinha.tellyoursentiments.MainActivity;
 
 import org.apache.http.HttpEntity;
@@ -78,24 +81,33 @@ public class MyDataUnit {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                Log.i(TAG, "Backgroud Work");
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpGet = new HttpPost(link);
-                List<NameValuePair> ln = new ArrayList<NameValuePair>();
-                ln.add(new BasicNameValuePair("text", text));
-                ln.add(new BasicNameValuePair("level", "sentence"));
-                httpGet.setEntity(new UrlEncodedFormEntity(ln));
-                //Log.i("Check", "Connecting...");
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                //publishProgress("Entity Creating...");
-                //Log.i("Check","Entity Creating..." );
-                HttpEntity httpEntity = httpResponse.getEntity();
+//                Log.i(TAG, "Backgroud Work");
+//                HttpClient httpClient = new DefaultHttpClient();
+//                HttpPost httpGet = new HttpPost(link);
+//                List<NameValuePair> ln = new ArrayList<NameValuePair>();
+//                ln.add(new BasicNameValuePair("text", text));
+//                ln.add(new BasicNameValuePair("level", "sentence"));
+//                httpGet.setEntity(new UrlEncodedFormEntity(ln));
+//                //Log.i("Check", "Connecting...");
+//                HttpResponse httpResponse = httpClient.execute(httpGet);
+//                //publishProgress("Entity Creating...");
+//                //Log.i("Check","Entity Creating..." );
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//
+//                //Log.i("Check","1st Place");
+//                String para = EntityUtils.toString(httpEntity);
+//                Log.i(TAG, "Data got : "+para);
+                Log.i(TAG,"Here 223 : "+text);
+                TextAPIClient client = new TextAPIClient("2ba72280", "15637380186be8e356ff0b7e564e5ad2");
+                SentimentParams.Builder builder = SentimentParams.newBuilder();
+                builder.setText(text);
+                Log.i(TAG,"Here 224 ");
+                Sentiment sentiment = client.sentiment(builder.build());
+                Log.i(TAG,"Here 225 ");
+                Log.i(TAG,sentiment.toString());
 
-                //Log.i("Check","1st Place");
-                String para = EntityUtils.toString(httpEntity);
-                Log.i(TAG, "Data got : "+para);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Log.i(TAG,"Here 226 "+e.getMessage());
             }
             //Log.i("Check",para);
             //JSONArray jsonArray = new JSONArray(para);
