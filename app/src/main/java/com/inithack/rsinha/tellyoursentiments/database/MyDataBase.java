@@ -98,7 +98,7 @@ public class MyDataBase {
                     sb.append(cursor.getString(0)+" ");
                 }while(cursor.moveToNext());
             }
-            MyDataUnit mdb=new MyDataUnit(sb.toString());
+            MyDataUnit mdb=new MyDataUnit(sb.toString(), context);
         }catch(Exception ex){
             Log.i(T, ex.getMessage());
         }

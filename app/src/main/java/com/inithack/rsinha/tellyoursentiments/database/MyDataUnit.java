@@ -1,15 +1,18 @@
 package com.inithack.rsinha.tellyoursentiments.database;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.inithack.rsinha.tellyoursentiments.MainActivity;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rsinha on 2/11/17.
  */
@@ -18,15 +21,17 @@ public class MyDataUnit {
     private String text, positive, negative, neutral;
     private ArrayList<Emotions> emotions;
     private String TAG="database";
+    private Context context;
 
-    public MyDataUnit(String text){
+    public MyDataUnit(String text, Context cont){
         emotions=new ArrayList<Emotions>();
         this.text=text;
+        context=cont;
         getSentiments();
     }
 
     public void getSentiments(){
-        new GetData(true).execute();
+        new GetData(true, context).execute();
     }
 
     public void getEmotions(){
@@ -46,7 +51,9 @@ public class MyDataUnit {
 
     public class GetData extends AsyncTask<Void,Void, Void>{
         private String link="https://api.theysay.io/v1/";
-        public GetData(boolean sentiment){
+        private Context cont;
+        public GetData(boolean sentiment, Context context){
+            cont=context;
             if(sentiment)
                 link=link+"sentiment";
             else
@@ -55,15 +62,35 @@ public class MyDataUnit {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Client client = ClientBuilder.newClient();
-            Entity payload = Entity.json("{  'text': '"+text+"',  'level': 'sentence',  'bias': {    'positive': 3.5,    'neutral': 2.7,    'negative': 18  }}");
-            Response response = client.target(link)
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(payload);
+//            Client client = ClientBuilder.newClient();
+//            Entity payload = Entity.json("{  'text': '"+text+"',  'level': 'sentence',  'bias': {    'positive': 3.5,    'neutral': 2.7,    'negative': 18  }}");
+//            Response response = client.target(link)
+//                    .request(MediaType.APPLICATION_JSON_TYPE)
+//                    .post(payload);
+//
+//            Log.i(TAG,"status: " + response.getStatus());
+//            Log.i(TAG,"headers: " + response.getHeaders());
+//            Log.i(TAG,"body:" + response.readEntity(String.class));
 
-            Log.i(TAG,"status: " + response.getStatus());
-            Log.i(TAG,"headers: " + response.getHeaders());
-            Log.i(TAG,"body:" + response.readEntity(String.class));
+//            HttpClient httpClient= new DefaultHttpClient();
+//            HttpPost httpGet=new HttpPost(MainActivity.domain+"PHP/getJson.php");
+//            publishProgress("Connecting...");
+//            List<NameValuePair> ln=new ArrayList<NameValuePair>();
+//            ln.add(new BasicNameValuePair("version",VER+""));
+//            ln.add(new BasicNameValuePair("table",MainActivity.CollegeYear));
+//            ln.add(new BasicNameValuePair("branch", MainActivity.branch));
+//            httpGet.setEntity(new UrlEncodedFormEntity(ln));
+//            //Log.i("Check", "Connecting...");
+//            HttpResponse httpResponse=httpClient.execute(httpGet);
+//            //publishProgress("Entity Creating...");
+//            //Log.i("Check","Entity Creating..." );
+//            HttpEntity httpEntity=httpResponse.getEntity();
+//
+//            //Log.i("Check","1st Place");
+//            String para = EntityUtils.toString(httpEntity);
+//            //Log.i("Check",para);
+            //JSONArray jsonArray = new JSONArray(para);
+
             return null;
         }
 
