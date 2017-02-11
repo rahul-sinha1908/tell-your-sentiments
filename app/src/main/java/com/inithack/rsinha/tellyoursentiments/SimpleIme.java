@@ -26,6 +26,7 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
         keyboard = new Keyboard(this, R.xml.qwerty);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
+        sentence=new StringBuffer(500);
         return kv;
     }
 

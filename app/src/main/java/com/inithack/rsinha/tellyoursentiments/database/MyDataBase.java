@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MyDataBase {
     public static SQLiteDatabase sdb;
-    public static String T="database";
+    public static String T="MyDatabase";
 
     public static SQLiteDatabase initiate(Context cont){
         if(sdb==null)
@@ -52,6 +52,7 @@ public class MyDataBase {
         try{
             String sql="INSERT INTO `"+table+"` VALUES('"+text+"')";
             sdb.execSQL(sql);
+            Log.i(T, "It reached here . 11 :"+text);
             if(getTableSize(cont)>=5)
                 getData(cont);
         }catch(Exception ex){
@@ -90,7 +91,7 @@ public class MyDataBase {
         String table=SharedP.getMyID(context);
 
         try{
-            String sql="SELECT * FROM `DATA`";
+            String sql="SELECT * FROM `"+table+"`";
             Cursor cursor = sdb.rawQuery(sql,null);
             StringBuffer sb=new StringBuffer();
             if(cursor!=null && cursor.moveToFirst()){
@@ -98,6 +99,7 @@ public class MyDataBase {
                     sb.append(cursor.getString(0)+" ");
                 }while(cursor.moveToNext());
             }
+            Log.i(T, "It reached here . 22 :"+sb.toString());
             MyDataUnit mdb=new MyDataUnit(sb.toString(), context);
         }catch(Exception ex){
             Log.i(T, ex.getMessage());
